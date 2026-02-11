@@ -1,0 +1,103 @@
+import json
+from datetime import datetime
+
+# Saving appointments to a file
+def load_appointments():
+    try:
+        with open("appointments.json", "r") as file:
+            return json.load (file)
+    except FileNotFoundError:
+        return[]
+    
+def save_appointments(appointments):
+    with open("appointments.json", "w") as file:
+        json.dump(appointments,file)
+
+
+appointments = load_appointments()
+
+# Creating a menu
+while True:
+    print("\n--- Appointment Management System ---")
+    print("1. Add Appointment")
+    print("2. View Appointment")
+    print("3. Delete Appointment")
+    print(". Exit")
+
+    choice = input("Choose an option (1-4)")
+
+# Adding functionality to appointment
+    if choice == "1":
+        name = input("Enter your name:")
+
+# Validating date format
+        while True:
+            date = input("Enter date of appointment (YYYY-MM-DD):")
+            try:
+                datetime.strptime(date, "%Y-%m-%d")
+                break
+            except ValueError:
+                print("Invalid date format. Please use YYYY-MM-DD.")
+            
+        
+
+# Validating time format
+
+        while True:
+            time = input("Enter time of appointment (HH:MM):")
+            try:
+                datetime.strptime(time, "%H:%M")
+                break
+            except ValueError:
+             print("Invalid time format. Please use HH:MM.")
+        
+        appointment = {
+            "name" : name,
+            "date" : date,
+            "time" : time
+        }
+
+        appointments.append(appointment)
+        save_appointments(appointments)
+        print("Appointment added successfully!")
+
+# Viewing appointments
+# This checks if the list is empty, it loops through appointments, and shows them numbered
+
+    elif choice == "2":
+        if not appointments:
+            print("No appointments scheduled")
+        else:
+            print("\nAppointments:")
+            for index, appointment in enumerate(appointments):
+                print(f"{index + 1}. {appointment['name']} - {appointment['date']} at {appointment['time']}")
+
+# Delete appointment
+    elif choice == "3":
+        if not appointments:
+            print("No appointments to delete.")
+        else:
+            for index, appointment in enumerate(appointments):
+                print(f"{index + 1}. {appointment['name']} - {appointment['date']} at {appointment['time']}")
+            try:
+                delete_choice = int(input("Enter appointment number to delete:"))
+                if 1<= delete_choice <= len(appointments):
+                    appointments.pop(delete_choice - 1)
+                    save_appointments(appointments)
+                    print("Appointment deleted successfully!")
+                else:
+                    print("Invalid appointment number.")
+            except ValueError:
+                print("Please enter a valid number.")
+             
+
+    # Exit option
+    elif choice == "4":
+        print("Goodbye!")
+        break
+    else:
+        print("Invalid option. Please choose option between 1 and 4.")
+        
+            
+
+
