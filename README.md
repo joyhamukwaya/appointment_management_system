@@ -27,6 +27,6 @@ Appointments are stored and displayed based on user requests.
 - Structured program flow
 
 ## Author
-Joy Rita Nduulinawa Hamukwaya
+Joy Hamukwaya
 Software Development Student
 
